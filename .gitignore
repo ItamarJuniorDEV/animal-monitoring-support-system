@@ -1,0 +1,11 @@
+node_modules
+.env
+src/ml/model_*.json
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
