@@ -83,6 +83,9 @@ describe('Testes da API', () => {
       expect(response.body).toHaveProperty('urgency');
       expect(response.body).toHaveProperty('area');
       expect(response.body).toHaveProperty('accuracy');
+
+      expect(response.body.accuracy).toBeGreaterThan(0.5);  
+      expect(response.body.accuracy).toBeLessThanOrEqual(1);  
     });
   });
 

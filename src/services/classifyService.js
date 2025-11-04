@@ -37,8 +37,20 @@ if (fs.existsSync(modelUrgPath) && fs.existsSync(modelAreaPath)) {
 }
 
 export function classifyTicket(description) {
-  const urgency = classifierUrg.classify(description);
-  const area = classifierArea.classify(description);
-  const accuracy = 0.86;
-  return { urgency, area, accuracy };
+  const urgencyClassifications = classifierUrg.getClassifications(description);
+  const areaClassifications = classifierArea.getClassifications(description);
+  
+  const urgencySum = urgencyClassifications.reduce((sum, c) => sum + c.value, 0);
+  const areaSum = areaClassifications.reduce((sum, c) => sum + c.value, 0);
+  
+  const urgency = urgencyClassifications[0].label;
+  const area = areaClassifications[0].label;
+  
+  const urgencyConfidence = urgencyClassifications[0].value / urgencySum;
+  const areaConfidence = areaClassifications[0].value / areaSum;
+  
+  const accuracy = Math.min(urgencyConfidence, areaConfidence);
+  const accuracyRounded = Math.round(accuracy * 100) / 100;
+  
+  return { urgency, area, accuracy: accuracyRounded };
 }
