@@ -42,22 +42,22 @@ Para cada ticket classificado, o sistema calcula a confiança real da predição
 
 ### Dados de Treinamento
 
-- Total de exemplos: 518 frases
-- Distribuição por área (balanceada):
-  - Coleiras: 23,4% (121 exemplos)
-  - Antenas: 25,9% (134 exemplos)
-  - Internet: 24,7% (128 exemplos)
-  - Fontes: 26,1% (135 exemplos)
+- Total de exemplos: 5000 tickets sintéticos
+- Distribuição por área (relativamente balanceada):
+  - Coleiras: 21,5% (1075 exemplos)
+  - Antenas: 25,4% (1270 exemplos)
+  - Internet: 26,6% (1330 exemplos)
+  - Fontes: 26,5% (1325 exemplos)
 - Distribuição por urgência:
-  - Baixa: 21,6% (112 exemplos)
-  - Média: 10,2% (53 exemplos)
-  - Alta: 68,1% (353 exemplos)
+  - Baixa: 23,6% (1180 exemplos)
+  - Média: 10,4% (520 exemplos)
+  - Alta: 66,0% (3300 exemplos)
 
 ### Acurácia do Modelo
 
-Testado com validação cruzada (80% treino, 20% teste):
-- **Classificação de urgência: 91,16%**
-- **Classificação de tipo de equipamento: 99,04%**
+Testado com validação cruzada (80% treino, 20% teste) usando 4000 exemplos para treinamento e 1000 para teste:
+- **Classificação de urgência: 97,30%**
+- **Classificação de tipo de equipamento: 99,90%**
 
 Os modelos são treinados uma vez e salvos em arquivo JSON para carregamento rápido nas inicializações seguintes.
 
@@ -152,7 +152,6 @@ Histórico de alterações dos tickets.
 **POST** `/api/auth/login`
 
 Realiza login e retorna um token JWT válido por 24 horas.
-
 ```json
 {
   "email": "itamar@gmail.com",
@@ -168,7 +167,6 @@ Realiza login e retorna um token JWT válido por 24 horas.
 **POST** `/api/auth/register`
 
 Cria um novo usuário no sistema.
-
 ```json
 {
   "email": "novo@exemplo.com",
@@ -204,7 +202,6 @@ curl -X GET "http://localhost:3333/api/tickets?urgency=high" \
 **POST** `/api/tickets`
 
 Cria um novo ticket e classifica automaticamente usando IA. Requer autenticação.
-
 ```json
 {
   "farm_code": "FAZ001",
@@ -238,7 +235,6 @@ curl -X POST http://localhost:3333/api/tickets \
 **PUT** `/api/tickets/:id`
 
 Atualiza o status de um ticket. Requer autenticação.
-
 ```json
 {
   "status": "progress"
@@ -261,7 +257,6 @@ Exclui um ticket. Requer autenticação.
 **POST** `/api/tickets/classify`
 
 Testa a classificação sem criar ticket no banco. Não requer autenticação (útil para testes).
-
 ```json
 {
   "description": "antena com cheiro de queimado"
@@ -295,15 +290,11 @@ O projeto inclui 8 testes automatizados que validam:
 - Classificação de texto pela IA com validação de confiança
 - Listagem de fazendas
 
+**Nota:** Alguns testes podem requerer configuração adicional de ambiente de teste isolado, incluindo mock do banco de dados e tokens de autenticação pré-configurados, para executar completamente.
+
 Para executar:
 ```bash
 npm test
-```
-
-Resultado esperado:
-```
-Test Suites: 1 passed
-Tests:       8 passed
 ```
 
 ## Scripts Utilitários
@@ -343,7 +334,7 @@ src/
 ├── middlewares/        # Middleware de autenticação JWT
 │   └── authMiddleware.js    # Verifica token nas rotas protegidas
 ├── ml/                 # Dados de treinamento e modelos salvos
-│   ├── trainData.js         # 518 exemplos de treinamento
+│   ├── trainData.js         # 5000 exemplos sintéticos de treinamento
 │   ├── model_urgency.json   # Modelo treinado (gerado automaticamente)
 │   └── model_area.json      # Modelo treinado (gerado automaticamente)
 ├── routes/             # Definição das rotas da API
@@ -403,13 +394,15 @@ Quando um ticket é criado com um farm_code inexistente, o sistema cria a fazend
 ### Histórico de Alterações
 Sempre que o status de um ticket é atualizado, um registro é inserido na tabela history com timestamp e descrição da mudança.
 
+### Dados Sintéticos
+Os cinco mil exemplos de treinamento foram gerados sinteticamente para representar situações típicas de suporte em sistemas de monitoramento animal. Embora elaborados com base em conhecimento do domínio, estes dados sintéticos não capturam toda a variabilidade linguística de descrições reais. Trabalhos futuros devem incluir validação com dados reais coletados em ambiente de produção.
+
 ### Desbalanceamento nos Dados
-Os dados de treinamento apresentam desbalanceamento na classe de urgência, com a categoria "medium" representando apenas 10,2% dos exemplos. Apesar disso, o modelo mantém alta acurácia geral de 91,16% para classificação de urgência. Em trabalhos futuros, recomenda-se equilibrar melhor esta distribuição para potencialmente melhorar a precisão na categoria "medium".
+Os dados de treinamento apresentam desbalanceamento na classe de urgência, com a categoria "medium" representando apenas 10,4% dos exemplos comparado a 66% da categoria "high". Apesar disso, o modelo mantém alta acurácia geral de 97,30% para classificação de urgência. Em trabalhos futuros, recomenda-se equilibrar melhor esta distribuição para potencialmente melhorar a precisão na categoria "medium".
 
 ## Exemplo de Uso Completo
 
 Aqui está um exemplo do fluxo completo de uso da API:
-
 ```bash
 # 1. Fazer login e obter token
 curl -X POST http://localhost:3333/api/auth/login \
