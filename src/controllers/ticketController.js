@@ -24,6 +24,30 @@ export async function listTickets(req, res) {
   }
 }
 
+export const getTicketById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    if (isNaN(id)) {
+      return res.status(400).json({ msg: 'ID inválido' });
+    }
+    
+    const [rows] = await db.execute(
+      'SELECT * FROM tickets WHERE id = ?', 
+      [id]
+    );
+    
+    if (rows.length === 0) {
+      return res.status(404).json({ msg: 'Ticket não encontrado' });
+    }
+    
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Erro ao buscar ticket:', error);
+    res.status(500).json({ msg: 'Erro interno do servidor' });
+  }
+};
+
 export async function createTicket(req, res) {
   try {
     const { farm_code, description } = req.body;
