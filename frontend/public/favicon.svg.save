@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0EA5E9"/>
+      <stop offset="100%" stop-color="#10B981"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Fundo -->
+  <rect width="100" height="100" rx="20" fill="url(#bg)"/>
+  
+  <!-- Corpo branco da vaca -->
+  <ellipse cx="50" cy="60" rx="25" ry="20" fill="white"/>
+  
+  <!-- Cabeça -->
+  <circle cx="50" cy="40" r="18" fill="white"/>
+  
+  <!-- Orelhas -->
+  <ellipse cx="35" cy="32" rx="6" ry="10" fill="white"/>
+  <ellipse cx="65" cy="32" rx="6" ry="10" fill="white"/>
+  <ellipse cx="35" cy="34" rx="4" ry="6" fill="#FCA5A5"/>
+  <ellipse cx="65" cy="34" rx="4" ry="6" fill="#FCA5A5"/>
+  
+  <!-- Manchas pretas características -->
+  <ellipse cx="42" cy="38" rx="7" ry="6" fill="#1F2937"/>
+  <ellipse cx="58" cy="42" rx="8" ry="7" fill="#1F2937"/>
+  <ellipse cx="45" cy="58" rx="10" ry="8" fill="#1F2937"/>
+  <ellipse cx="60" cy="64" rx="9" ry="7" fill="#1F2937"/>
+  
+  <!-- Olhos -->
+  <circle cx="44" cy="40" r="2.5" fill="#1F2937"/>
+  <circle cx="56" cy="40" r="2.5" fill="#1F2937"/>
+  <circle cx="45" cy="39.5" r="1" fill="white"/>
+  <circle cx="57" cy="39.5" r="1" fill="white"/>
+  
+  <!-- Focinho -->
+  <ellipse cx="50" cy="48" rx="10" ry="7" fill="#FCD34D"/>
+  <ellipse cx="50" cy="48" rx="8" ry="5" fill="#FDE68A"/>
+  
+  <!-- Narinas -->
+  <ellipse cx="47" cy="49" rx="1.5" ry="2" fill="#78716C"/>
+  <ellipse cx="53" cy="49" rx="1.5" ry="2" fill="#78716C"/>
+  
+  <!-- Boca sorridente -->
+  <path d="M 45 52 Q 50 54 55 52" stroke="#78716C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  
+  <!-- Chifrinhos -->
+  <path d="M 38 28 L 35 24 L 37 25" fill="white" stroke="#94A3B8" stroke-width="1"/>
+  <path d="M 62 28 L 65 24 L 63 25" fill="white" stroke="#94A3B8" stroke-width="1"/>
+  
+  <!-- Pernas -->
+  <rect x="38" y="75" width="4" height="12" rx="2" fill="white"/>
+  <rect x="48" y="75" width="4" height="12" rx="2" fill="white"/>
+  <rect x="58" y="75" width="4" height="12" rx="2" fill="white"/>
+  
+  <!-- Cascos -->
+  <rect x="38" y="85" width="4" height="3" fill="#1F2937"/>
+  <rect x="48" y="85" width="4" height="3" fill="#1F2937"/>
+  <rect x="58" y="85" width="4" height="3" fill="#1F2937"/>
+</svg>
